@@ -14,7 +14,7 @@ const { getBoost } = require('./getBoost');
 
 const db = dynamodb.doc;
 const archiveNodeUrl = process.env.ARCHIVENODE_ENDPOINT;
-const infuraUrl = process.env.WEB3_ENDPOINT;
+const infuraUrl = process.env.WEB3_ENDPOINT_HTTPS;
 const archiveNodeWeb3 = new Web3(archiveNodeUrl);
 const infuraWeb3 = new Web3(infuraUrl);
 const blocks = new EthDater(archiveNodeWeb3, delayTime);
@@ -61,10 +61,10 @@ const getApy = async (previousValue, currentValue, previousBlockNbr) => {
   if (!previousValue) {
     return 0;
   }
-  const pricePerFullShareDelta = (currentValue - previousValue) / 1e18;
   const blockDelta = currentBlockNbr - previousBlockNbr;
-  const dailyRoi = (pricePerFullShareDelta / blockDelta) * 100 * nbrBlocksInDay;
-  const yearlyRoi = dailyRoi * 365;
+  const returnSincePrevBlock = (currentValue - previousValue) / previousValue;
+  const days = blockDelta / nbrBlocksInDay;
+  const yearlyRoi = 100 * ((1 + returnSincePrevBlock) ** (365 / days) - 1);
   return yearlyRoi;
 };
 
