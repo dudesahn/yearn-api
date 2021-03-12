@@ -1,4 +1,5 @@
 # Yearn TVL Calculation Methodology
+** Last updated March 12, 2021 **
 
 ## Overview- Calculating Totals, Avoiding Double-Counting
 
@@ -11,17 +12,22 @@
   - Subtract WETH, TUSD, and DAI Strategy Holdings since these are all delegated to yCRV.
   - Subtract USDT, USDC, and aLINK strategy since they all feed to 3pool. LINK doesn't have a separate strategy.
   - Subtract mUSD Strategy Holdings since these are in the mUSD3crv vault.
-- **Total Vault Holdings**
-  - Sum up Vault Holdings in USD.
-  - Subtract Strategy Holdings for EURS, ETH, DAI, and TUSD since all are in yCRV Vault.
+- **Total Vault Holdings (v1 and v2)**
+  - Sum up v1 Vault Holdings in USD.
+  - Subtract Strategy Holdings for ETH, DAI, and TUSD since all are in yCRV Vault.
   - Subtract Strategy Holdings for aLINK, USDC, and USDT and subtract Vault Holdings for LINK since these are all in the 3pool Vault.
   - Subtract mUSD Strategy Holdings since these are in the mUSD3crv vault.
+  - Sum up v2 Vault Holdings and add to the above.
+- **Iron Bank Holdings**
+  - Sum up dollars holdings of Iron Bank
+  - Subtract out supplied y3Crv, as well as any other Yearn vaults/products that are later added
 - **Total Value Locked**
-  - Start with Total Vault Holdings.
+  - Start with Total Vault Holdings (v1 and v2).
+  - Add Iron Bank
   - Add Total Earn Holdings.
   - Add YFI Staking and Yearn's veCRV.
   - Subtract Vault Holdings for yCRV and crvBUSD since these are included in Earn.
-  - Subtract YFI Vault Holdings since this is included in staking.
+  - Subtract v1 YFI Vault Holdings since this is included in staking.
 
 ## Directions for API
 
